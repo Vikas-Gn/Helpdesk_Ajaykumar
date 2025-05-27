@@ -1,4 +1,3 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -19,10 +18,11 @@ const pool = new Pool({
 // Middleware
 app.use(cors({
     origin: [
-        'http://localhost:3000', 
+        'http://localhost:3000',
         'http://127.0.0.1:3000',
         'http://localhost:5500',
-        'http://127.0.0.1:5500'
+        'http://127.0.0.1:5500',
+        'http://127.0.0.1:5503' // Added to allow requests from port 5503
     ]
 }));
 app.use(express.json());
