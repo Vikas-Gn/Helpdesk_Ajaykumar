@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATS Help Desk - HR Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ATS Help Desk HR Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
             --primary: #4361ee;
@@ -18,7 +19,7 @@
             --gray: #6c757d;
             --open: #4cc9f0;
             --in-progress: #f8961e;
-            --resolved: #007e1f;
+            --resolved: #4ad66d;
             --closed: #6c757d;
         }
 
@@ -35,27 +36,15 @@
             color: var(--dark);
         }
 
-        .banner {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-         header {
+        header {
             position: relative;
             text-align: center;
             height: 140px;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #fff;
+            color: white;
             border-radius: 15px;
             overflow: hidden;
             display: flex;
-            width: 100%;
-           
             align-items: center;
             justify-content: center;
             flex-direction: column;
@@ -66,7 +55,6 @@
         header h1 {
             margin: 0;
             font-size: 2.5rem;
-            color: white;
             font-weight: 700;
             letter-spacing: 1px;
             position: relative;
@@ -75,7 +63,7 @@
         }
 
         header p {
-            font-weight: 300;
+            font-weight: normal;
             font-size: 1.1rem;
             margin-top: 10px;
             opacity: 0.9;
@@ -259,19 +247,6 @@
             color: var(--accent);
         }
 
-        .btn-edit {
-            color: var(--warning);
-        }
-
-        .btn-resolve {
-            color: var(--success);
-        }
-
-        .btn-close {
-            color: var(--gray);
-        }
-
-        /* Modal */
         .modal {
             position: fixed;
             top: 0;
@@ -297,12 +272,12 @@
             background: white;
             border-radius: 10px;
             width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 700px;
             padding: 2rem;
             transform: translateY(-20px);
             transition: all 0.3s ease;
+            text-align: left;
+            overflow-y: auto;
         }
 
         .modal.active .modal-content {
@@ -313,17 +288,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid #eee;
-        }
-
-        .modal-header h3 {
-            color: var(--primary);
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .modal-close {
@@ -334,13 +301,8 @@
             color: var(--gray);
         }
 
-        .ticket-details {
-            margin-bottom: 1.5rem;
-        }
-
         .ticket-details p {
             margin-bottom: 0.75rem;
-            display: flex;
         }
 
         .ticket-details strong {
@@ -367,7 +329,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+ transition: all 0.3s ease;
             text-decoration: none;
         }
 
@@ -387,7 +349,7 @@
         }
 
         .btn-success:hover {
-            background: #3aa8c1;
+            background: #39c3e6;
             transform: translateY(-2px);
         }
 
@@ -397,7 +359,7 @@
         }
 
         .btn-warning:hover {
-            background: #d87e16;
+            background: #e68a1a;
             transform: translateY(-2px);
         }
 
@@ -407,36 +369,39 @@
         }
 
         .btn-danger:hover {
-            background: #d3165e;
+            background: #e61e68;
             transform: translateY(-2px);
         }
 
-        /* Animations */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .invalid-feedback {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         @keyframes pulse {
@@ -445,26 +410,25 @@
             100% { opacity: 1; }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .banner h1 {
+            header h1 {
                 font-size: 2rem;
             }
-            
+
             .card {
                 padding: 1.5rem;
             }
-            
+
             .tickets-table {
                 display: block;
                 overflow-x: auto;
             }
-            
+
             .filters {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .filter-group {
                 min-width: 100%;
             }
@@ -479,13 +443,12 @@
             <div class="circle"></div>
         </div>
         <h1><i class="fas fa-headset"></i> ATS Help Desk - HR Dashboard</h1>
-        <p>Manage and resolve employee tickets efficiently</p>
+        <p>Manage and resolve employee tickets efficiently.</p>
     </header>
-    
+
     <div class="container">
         <div class="card">
             <h2><i class="fas fa-filter"></i> Filters</h2>
-            
             <div class="filters">
                 <div class="filter-group">
                     <label for="filterStatus">Status</label>
@@ -497,7 +460,6 @@
                         <option value="Closed">Closed</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
                     <label for="filterPriority">Priority</label>
                     <select id="filterPriority" class="filter-control">
@@ -508,7 +470,6 @@
                         <option value="Critical">Critical</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
                     <label for="filterDepartment">Department</label>
                     <select id="filterDepartment" class="filter-control">
@@ -521,14 +482,13 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
                     <label for="filterIssueType">Issue Type</label>
                     <select id="filterIssueType" class="filter-control">
                         <option value="">All Issue Types</option>
                         <option value="Technical">Technical Issue</option>
                         <option value="Hardware">Hardware Problem</option>
-                        <option value="Software">Software Problem</option>
+                        <option value="Software">Software</option>
                         <option value="Access">Access Request</option>
                         <option value="Account">Account Issue</option>
                         <option value="Other">Other</option>
@@ -536,38 +496,35 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card">
-            <h2><i class="fas fa-ticket-alt"></i> Tickets</h2>
-            
+            <h2><i class="fas fa-ticket-alt"></i></i> Tickets</h2>
             <table class="tickets-table">
                 <thead>
                     <tr>
                         <th>Ticket ID</th>
                         <th>Employee</th>
                         <th>Department</th>
-                        <th>Issue Type</th>
-                        <th>Priority</th>
+                        <th>tIssue Type</th>
+                        <th>tPriority</th>
                         <th>Status</th>
                         <th>Created</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="ticketsBody">
-                    <!-- Tickets will be loaded here -->
+                    <tr><td colspan="8" style="text-align: center; padding: 2rem;">Loading tickets...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-    
-    <!-- Ticket Detail Modal -->
+
     <div id="ticketModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3><i class="fas fa-ticket-alt"></i> <span id="modalTicketId"></span></h3>
                 <button class="modal-close" onclick="closeModal()">×</button>
             </div>
-            
             <div class="ticket-details">
                 <p><strong>Employee ID:</strong> <span id="modalEmpId"></span></p>
                 <p><strong>Employee Name:</strong> <span id="modalEmpName"></span></p>
@@ -579,271 +536,258 @@
                 <p><strong>Created:</strong> <span id="modalCreated"></span></p>
                 <p><strong>Description:</strong></p>
                 <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-top: 0.5rem;">
-                    <span id="modalDescription"></span>
+                    <p id="modalDescription"></p>
                 </div>
             </div>
-            
+            <div style="margin-top: 2rem;">
+                <h4><i class="fas fa-comments"></i> Comments</h4>
+                <div id="commentsHistory" style="margin-top: 1rem;">
+                    <!-- Comments will be loaded here -->
+                </div>
+                <div class="form-group">
+                    <label for="commentInput">Add Comment</label>
+                    <textarea id="commentInput" class="form-control" rows="3" maxlength="500" placeholder="Enter your comment..."></textarea>
+                    <div class="invalid-feedback">Comment cannot be empty or exceed 500 characters</div>
+                </div>
+                <button class="btn btn-primary" onclick="addComment()"><i class="fas fa-comment"></i> Submit Comment</button>
+            </div>
             <div class="ticket-actions">
-                <button class="btn btn-warning" onclick="updateStatus('In Progress')">
-                    <i class="fas fa-tasks"></i> In Progress
-                </button>
-                <button class="btn btn-success" onclick="updateStatus('Resolved')">
-                    <i class="fas fa-check-circle"></i> Resolved
-                </button>
-                <button class="btn btn-danger" onclick="updateStatus('Closed')">
-                    <i class="fas fa-archive"></i> Close
-                </button>
-                <button class="btn btn-primary" onclick="addComment()" style="margin-left: auto;">
-                    <i class="fas fa-comment"></i> Add Comment
-                </button>
+                <button class="btn btn-warning" onclick="updateStatus('In Progress')"><i class="fas fa-tasks"></i> Mark In Progress</button>
+                <button class="btn btn-success" onclick="updateStatus('Resolved')"><i class="fas fa-check"></i> Mark Resolved</button>
+                <button class="btn btn-danger" onclick="updateStatus('Closed')"><i class="fas fa-times"></i> Close Ticket</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Global variable to track current ticket in modal
+        console.log('hr_dashboard.html loaded, version: 2025-05-28-fix');
         let currentTicketId = null;
-        
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', async function() {
-            try {
-                await renderTickets();
-                
-                // Add event listeners to filters
-                document.getElementById('filterStatus').addEventListener('change', renderTickets);
-                document.getElementById('filterPriority').addEventListener('change', renderTickets);
-                document.getElementById('filterDepartment').addEventListener('change', renderTickets);
-                document.getElementById('filterIssueType').addEventListener('change', renderTickets);
-            } catch (error) {
-                console.error('Initialization error:', error);
-                alert('Error initializing page');
+        const API_BASE_URL = 'http://localhost:3025';
+
+        // Check if response is HTML
+        async function checkResponse(response) {
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('application/json')) {
+                const text = await response.text();
+                console.error('Unexpected response type:', contentType, 'Body:', text.slice(0, 100));
+                throw new Error(`Unexpected response: ${text.includes('<!DOCTYPE html>') ? 'Received HTML instead of JSON' : contentType}`);
             }
+            return response.json();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing dashboard');
+            ['filterStatus', 'filterPriority', 'filterDepartment', 'filterIssueType'].forEach(id => {
+                document.getElementById(id).addEventListener('change', renderTickets);
+            });
+            renderTickets();
         });
-        
-        // Render tickets based on filters
+
         async function renderTickets() {
+            const ticketsBody = document.getElementById('ticketsBody');
+            ticketsBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">Loading tickets...</td></tr>';
+
             try {
-                // Get filter values safely
-                const statusFilter = document.getElementById('filterStatus')?.value || '';
-                const priorityFilter = document.getElementById('filterPriority')?.value || '';
-                const departmentFilter = document.getElementById('filterDepartment')?.value || '';
-                const issueTypeFilter = document.getElementById('filterIssueType')?.value || '';
-                
-                // Build query string
+                console.log('Fetching tickets');
+                const statusFilter = document.getElementById('filterStatus').value;
+                const priorityFilter = document.getElementById('filterPriority').value;
+                const departmentFilter = document.getElementById('filterDepartment').value;
+                const issueTypeFilter = document.getElementById('filterIssueType').value;
+
                 const params = new URLSearchParams();
                 if (statusFilter) params.append('status', statusFilter);
                 if (priorityFilter) params.append('priority', priorityFilter);
                 if (departmentFilter) params.append('department', departmentFilter);
                 if (issueTypeFilter) params.append('issue_type', issueTypeFilter);
-                
-                const response = await fetch(`http://localhost:5000/api/tickets?${params.toString()}`);
-                if (!response.ok) throw new Error('Failed to fetch tickets');
-                
-                const tickets = await response.json();
-                const ticketsBody = document.getElementById('ticketsBody');
-                if (!ticketsBody) {
-                    console.error('Tickets table body not found');
-                    return;
-                }
-                
+
+                console.log('Fetching tickets from:', `${API_BASE_URL}/api/tickets?${params.toString()}`);
+                const response = await fetch(`${API_BASE_URL}/api/tickets?${params.toString()}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const tickets = await checkResponse(response);
+                console.log('Tickets received:', tickets.length);
+
                 ticketsBody.innerHTML = '';
-                
                 if (tickets.length === 0) {
-                    ticketsBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No tickets found matching your filters</td></tr>';
+                    ticketsBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No tickets found</td></tr>';
                     return;
                 }
-                
+
                 tickets.forEach(ticket => {
                     const row = document.createElement('tr');
-                    
-                    // Format date
-                    const createdDate = new Date(ticket.created_at || ticket.createdAt || Date.now());
+                    const createdDate = new Date(ticket.created_at);
                     const formattedDate = createdDate.toLocaleDateString() + ' ' + createdDate.toLocaleTimeString();
-                    
-                    // Priority class
-                    let priorityClass = '';
-                    if (ticket.priority === 'High') priorityClass = 'priority-high';
-                    if (ticket.priority === 'Critical') priorityClass = 'priority-critical';
-                    
-                    // Status badge
-                    let statusBadge = '';
-                    if (ticket.status === 'Open') statusBadge = 'status-open';
-                    if (ticket.status === 'In Progress') statusBadge = 'status-in-progress';
-                    if (ticket.status === 'Resolved') statusBadge = 'status-resolved';
-                    if (ticket.status === 'Closed') statusBadge = 'status-closed';
-                    
+
+                    const priorityClass = ticket.priority === 'High' ? 'priority-high' : ticket.priority === 'Critical' ? 'priority-critical' : '';
+                    const statusBadge = ticket.status === 'Open' ? 'status-open' :
+                        ticket.status === 'In Progress' ? 'status-in-progress' :
+                        ticket.status === 'Resolved' ? 'status-resolved' : 'status-closed';
+
                     row.innerHTML = `
-                        <td>${ticket.ticket_id || ticket.id}</td>
-                        <td>${ticket.emp_name || ticket.employeeName}<br><small>${ticket.emp_id || ticket.employeeId}</small></td>
+                        <td>${ticket.ticket_id}</td>
+                        <td>${ticket.emp_name} (${ticket.emp_id})</td>
                         <td>${ticket.department}</td>
-                        <td>${ticket.issue_type || ticket.issueType}</td>
+                        <td>${ticket.issue_type}</td>
                         <td class="${priorityClass}">${ticket.priority}</td>
                         <td><span class="status-badge ${statusBadge}">${ticket.status}</span></td>
                         <td>${formattedDate}</td>
                         <td>
-                            <button class="action-btn btn-view" onclick="viewTicket('${ticket.ticket_id || ticket.id}')" title="View">
+                            <button class="action-btn btn-view" onclick="viewTicket('${ticket.ticket_id}')" title="View Ticket">
                                 <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="action-btn btn-resolve" onclick="resolveTicket('${ticket.ticket_id || ticket.id}')" title="Resolve">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="action-btn btn-close" onclick="closeTicket('${ticket.ticket_id || ticket.id}')" title="Close">
-                                <i class="fas fa-times"></i>
                             </button>
                         </td>
                     `;
-                    
                     ticketsBody.appendChild(row);
                 });
             } catch (error) {
                 console.error('Error fetching tickets:', error);
-                const ticketsBody = document.getElementById('ticketsBody');
-                if (ticketsBody) {
-                    ticketsBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: var(--danger);">Error loading tickets</td></tr>';
-                }
+                ticketsBody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem;">Error: ${error.message}. Please ensure the server is running.</td></tr>`;
+                alert(`Failed to load tickets: ${error.message}`);
             }
         }
-        
-        // View ticket details
+
         async function viewTicket(ticketId) {
             try {
-                const response = await fetch(`http://localhost:5000/api/tickets/${ticketId}`);
-                if (!response.ok) throw new Error('Failed to fetch ticket');
-                
-                const ticket = await response.json();
-                currentTicketId = ticket.ticket_id || ticket.id;
-                
-                // Format date
-                const createdDate = new Date(ticket.created_at || ticket.createdAt);
+                console.log('Viewing ticket:', ticketId);
+                const response = await fetch(`${API_BASE_URL}/api/tickets/${ticketId}`);
+                const ticket = await checkResponse(response);
+                currentTicketId = ticket.ticket_id;
+
+                const createdDate = new Date(ticket.created_at);
                 const formattedDate = createdDate.toLocaleDateString() + ' ' + createdDate.toLocaleTimeString();
-                
-                // Set modal content safely
-                const setModalContent = (id, value) => {
-                    const el = document.getElementById(id);
-                    if (el) el.textContent = value || 'N/A';
-                };
-                
-                setModalContent('modalTicketId', ticket.ticket_id || ticket.id);
-                setModalContent('modalEmpId', ticket.emp_id || ticket.employeeId);
-                setModalContent('modalEmpName', ticket.emp_name || ticket.employeeName);
-                setModalContent('modalEmpEmail', ticket.emp_email || ticket.employeeEmail);
-                setModalContent('modalDepartment', ticket.department);
-                setModalContent('modalPriority', ticket.priority);
-                setModalContent('modalIssueType', ticket.issue_type || ticket.issueType);
-                setModalContent('modalStatus', ticket.status);
-                setModalContent('modalCreated', formattedDate);
-                setModalContent('modalDescription', ticket.description);
-                
+
+                document.getElementById('modalTicketId').textContent = ticket.ticket_id;
+                document.getElementById('modalEmpId').textContent = ticket.emp_id;
+                document.getElementById('modalEmpName').textContent = ticket.emp_name;
+                document.getElementById('modalEmpEmail').textContent = ticket.emp_email;
+                document.getElementById('modalDepartment').textContent = ticket.department;
+                document.getElementById('modalPriority').textContent = ticket.priority;
+                document.getElementById('modalIssueType').textContent = ticket.issue_type;
+                document.getElementById('modalStatus').textContent = ticket.status;
+                document.getElementById('modalCreated').textContent = formattedDate;
+                document.getElementById('modalDescription').textContent = ticket.description;
+
+                await loadComments();
                 document.getElementById('ticketModal').classList.add('active');
             } catch (error) {
                 console.error('Error viewing ticket:', error);
-                alert('Error loading ticket details');
+                alert(`Error viewing ticket: ${error.message}`);
             }
         }
-        
-        // Resolve ticket
-        async function resolveTicket(ticketId) {
-            if (confirm('Mark this ticket as resolved?')) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/tickets/${ticketId}/status`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ status: 'Resolved' })
-                    });
-                    
-                    if (!response.ok) throw new Error('Failed to update ticket');
-                    
-                    await renderTickets();
-                    alert('Ticket marked as resolved');
-                } catch (error) {
-                    console.error('Error resolving ticket:', error);
-                    alert('Error resolving ticket');
-                }
+
+        async function updateStatus(status) {
+            if (!currentTicketId) {
+                console.log('No ticket selected for status update');
+                alert('No ticket selected');
+                return;
             }
-        }
-        
-        // Close ticket
-        async function closeTicket(ticketId) {
-            if (confirm('Close this ticket?')) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/tickets/${ticketId}/status`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ status: 'Closed' })
-                    });
-                    
-                    if (!response.ok) throw new Error('Failed to update ticket');
-                    
-                    await renderTickets();
-                    alert('Ticket closed');
-                } catch (error) {
-                    console.error('Error closing ticket:', error);
-                    alert('Error closing ticket');
-                }
-            }
-        }
-        
-        // Update ticket status from modal
-        async function updateStatus(newStatus) {
-            if (!currentTicketId) return;
-            
+
             try {
-                const response = await fetch(`http://localhost:5000/api/tickets/${currentTicketId}/status`, {
+                console.log('Updating status for ticket:', currentTicketId, 'to', status);
+                const response = await fetch(`${API_BASE_URL}/api/tickets/${currentTicketId}/status`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ status: newStatus })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
                 });
-                
-                if (!response.ok) throw new Error('Failed to update ticket');
-                
-                closeModal();
+
+                const updatedTicket = await checkResponse(response);
+                console.log('Status updated:', updatedTicket);
+
+                document.getElementById('modalStatus').textContent = updatedTicket.status;
                 await renderTickets();
-                alert(`Ticket status updated to ${newStatus}`);
             } catch (error) {
-                console.error('Error updating ticket status:', error);
-                alert('Error updating ticket status');
+                console.error('Error updating status:', error);
+                alert(`Error updating status: ${error.message}`);
             }
         }
-        
-        // Add comment to ticket
+
         async function addComment() {
-            if (!currentTicketId) return;
-            
-            const comment = prompt('Enter your comment:');
-            if (!comment) return;
-            
+            if (!currentTicketId) {
+                console.log('No ticket selected for comment');
+                alert('No ticket selected');
+                return;
+            }
+
+            const commentInput = document.getElementById('commentInput');
+            const comment = commentInput.value.trim();
+            const feedback = commentInput.nextElementSibling;
+
+            if (!comment || comment.length > 500) {
+                console.log('Comment validation failed:', comment);
+                commentInput.classList.add('is-invalid');
+                feedback.style.display = 'block';
+                return;
+            }
+
+            commentInput.classList.remove('is-invalid');
+            feedback.style.display = 'none';
+
             try {
-                const response = await fetch(`http://localhost:5000/api/tickets/${currentTicketId}/comments`, {
+                console.log('Adding comment for ticket:', currentTicketId);
+                const response = await fetch(`${API_BASE_URL}/api/tickets/${currentTicketId}/comments`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        comment: comment,
-                        author: 'HR Representative'
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ comment, author: 'HR Admin' })
                 });
-                
-                if (!response.ok) throw new Error('Failed to add comment');
-                
-                alert('Comment added successfully');
+
+                const newComment = await checkResponse(response);
+                console.log('Comment added:', newComment);
+
+                commentInput.value = '';
+                await loadComments();
             } catch (error) {
                 console.error('Error adding comment:', error);
-                alert('Error adding comment');
+                alert(`Error adding comment: ${error.message}`);
             }
         }
-        
-        // Close modal
+
+        async function loadComments() {
+            if (!currentTicketId) return;
+
+            const commentsContainer = document.getElementById('commentsHistory');
+            commentsContainer.innerHTML = '<p>Loading comments...</p>';
+
+            try {
+                console.log('Loading comments for ticket:', currentTicketId);
+                const response = await fetch(`${API_BASE_URL}/api/tickets/${currentTicketId}/comments`);
+                const comments = await checkResponse(response);
+
+                commentsContainer.innerHTML = '';
+                if (comments.length === 0) {
+                    commentsContainer.innerHTML = '<p>No comments yet</p>';
+                    return;
+                }
+
+                comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    const commentDate = new Date(comment.comments_at);
+                    const formattedDate = commentDate.toLocaleDateString() + ' ' + commentDate.toLocaleTimeString();
+
+                    commentDiv.style.padding = '10px';
+                    commentDiv.style.marginBottom = '10px';
+                    commentDiv.style.backgroundColor = '#f0f0f0';
+                    commentDiv.style.borderRadius = '5px';
+
+                    commentDiv.innerHTML = `
+                        <p><strong>${comment.author}</strong> - <small>${formattedDate}</small></p>
+                        <p>${comment.comment}</p>
+                    `;
+                    commentsContainer.appendChild(commentDiv);
+                });
+            } catch (error) {
+                console.error('Error loading comments:', error);
+                commentsContainer.innerHTML = `<p>Error loading comments: ${error.message}</p>`;
+            }
+        }
+
         function closeModal() {
-            const modal = document.getElementById('ticketModal');
-            if (modal) modal.classList.remove('active');
+            document.getElementById('ticketModal').classList.remove('active');
             currentTicketId = null;
+            const commentInput = document.getElementById('commentInput');
+            commentInput.classList.remove('is-invalid');
+            commentInput.nextElementSibling.style.display = 'none';
         }
     </script>
 </body>
