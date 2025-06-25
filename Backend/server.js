@@ -32,7 +32,9 @@ app.use(cors({
             'http://54.166.206.245:3025',
             'http://localhost:3025',
             'http://localhost:8080',
-            'http://127.0.0.1:8080'
+            'http://127.0.0.1:8080',
+            'http://65.2.149.3:8075',
+            'http://65.2.149.3:8076',
         ];
 
         console.log('CORS request from origin:', origin);
