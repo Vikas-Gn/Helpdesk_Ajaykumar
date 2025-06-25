@@ -23,33 +23,31 @@ pool.connect((err, client, release) => {
     console.log('Database connected successfully');
     release();
 });
-app.use(cors());
+
+const cors = require('cors');
+
+const allowedOrigins = [
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'http://localhost:3025',
+  'http://54.166.206.245:3025',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  'http://65.2.149.3:8075', // Frontend
+  'http://65.2.149.3:8076'  // HR Page
+];
+
 app.use(cors({
-    origin: (origin, callback) => {
-        const allowedOrigins = [
-            'http://localhost:5500',
-            'http://127.0.0.1:5500',
-            'http://54.166.206.245:3025',
-            'http://localhost:3025',
-            'http://localhost:8080',
-            'http://127.0.0.1:8080',
-            'http://65.2.149.3:8075',
-            'http://65.2.149.3:8076',
-        ];
-
-        console.log('CORS request from origin:', origin);
-
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else if (origin === "null") { // Allow file-based frontend during testing
-            console.warn("Allowing null origin for local testing.");
-            callback(null, true);
-        } else {
-            callback(new Error('CORS policy: Origin not allowed'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
 }));
 
 app.use(express.json());
