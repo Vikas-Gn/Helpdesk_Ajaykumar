@@ -24,7 +24,6 @@ pool.connect((err, client, release) => {
     release();
 });
 
-const cors = require('cors');
 
 const allowedOrigins = [
   'http://localhost:5500',
