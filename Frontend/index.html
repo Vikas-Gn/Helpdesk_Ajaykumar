@@ -960,7 +960,7 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|[a-zA-Z0-9-]+\.i
                 });
             } catch (error) {
                 console.error('Error fetching comments:', error);
-                const commentsBody = document.getElementById('CommentsBody');
+                const commentsBody = document.getElementById('commentsBody');
                 commentsBody.innerHTML = `<p>Error fetching comments: ${error.message}</p>`;
             }
         }
