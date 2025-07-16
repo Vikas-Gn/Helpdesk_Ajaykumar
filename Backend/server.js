@@ -29,11 +29,11 @@ const allowedOrigins = [
   'http://localhost:5500',
   'http://127.0.0.1:5500',
   'http://localhost:3025',
-  'http://54.166.206.245:3025',
+  'http://65.2.191.52:3055',
   'http://localhost:8080',
   'http://127.0.0.1:8080',
-  'http://65.2.149.3:8075', // Frontend
-  'http://65.2.149.3:8076'  // HR Page
+  'http://65.2.191.52:8075', // Frontend
+  'http://65.2.191.52:8076'  // HR Page
 ];
 
 app.use(cors({
