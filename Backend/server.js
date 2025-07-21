@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
-const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
@@ -15,6 +14,16 @@ const pool = new Pool({
     port: 5432,
 });
 
+// Helper function to generate ATS ticket IDs
+function generateTicketId() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = 'ATS';
+    for (let i = 0; i < 7; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
 pool.connect((err, client, release) => {
     if (err) {
         console.error('Database connection failed:', err.message, err.stack);
@@ -24,29 +33,29 @@ pool.connect((err, client, release) => {
     release();
 });
 
-
-const allowedOrigins = [
-  'http://localhost:5500',
-  'http://127.0.0.1:5500',
-  'http://localhost:3025',
-  'http://65.2.191.52:3055',
-  'http://localhost:8080',
-  'http://127.0.0.1:8080',
-  'http://65.2.191.52:8075', // Frontend
-  'http://65.2.191.52:8076'  // HR Page
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            'http://13.233.184.30:5500',
+            'http://127.0.0.1:5500',
+            'http://13.233.184.30:3055',
+            'http://13.233.184.30:8075',
+            'http://13.233.184.30:8076',
+        ];
+
+        console.log('CORS request from origin:', origin);
+
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else if (origin === "null") {
+            console.warn("Allowing null origin for local testing.");
+            callback(null, true);
+        } else {
+            callback(new Error('CORS policy: Origin not allowed'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
@@ -104,7 +113,7 @@ const initializeDatabase = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS tickets (
                 id SERIAL PRIMARY KEY,
-                ticket_id VARCHAR(100) UNIQUE NOT NULL,
+                ticket_id VARCHAR(10) UNIQUE NOT NULL,  -- Changed to 10 characters
                 emp_id VARCHAR(20) NOT NULL,
                 emp_name VARCHAR(100) NOT NULL,
                 emp_email VARCHAR(100) NOT NULL,
@@ -121,7 +130,7 @@ const initializeDatabase = async () => {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS comments (
                 id SERIAL PRIMARY KEY,
-                ticket_id VARCHAR(100) REFERENCES tickets(ticket_id) ON DELETE CASCADE,
+                ticket_id VARCHAR(10) REFERENCES tickets(ticket_id) ON DELETE CASCADE,  -- Changed to match
                 comment TEXT NOT NULL,
                 author VARCHAR(100) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -156,12 +165,40 @@ app.post('/api/tickets', async (req, res) => {
             return res.status(400).json({ error: 'Invalid Employee ID' });
         }
 
-        if (!/^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|[a-zA-Z0-9-]+\.in|[a-zA-Z0-9-]+\.org\.co)$/.test(emp_email)) {
+        if (!/^[a-zA-Z][a-zA-Z0-9._-]{1,}[a-zA-Z]@astrolitetech\.com$/.test(emp_email)) {
             console.log('Invalid email:', emp_email);
-            return res.status(400).json({ error: 'Invalid email domain' });
+            return res.status(400).json({ error: 'Email must be from @astrolitetech.com domain' });
         }
 
-        const ticket_id = uuidv4();
+        if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(emp_name)) {
+            console.log('Invalid emp_name:', emp_name);
+            return res.status(400).json({ error: 'Invalid employee name' });
+        }
+
+        if (description.length < 10 || !/[a-zA-Z]/.test(description) || description !== description.trim() || description.includes('  ')) {
+            console.log('Invalid description:', description);
+            return res.status(400).json({ error: 'Invalid description' });
+        }
+
+        const validDepartments = ['IT', 'Human Resources', 'Finance', 'Operations', 'Marketing', 'Other'];
+        if (!validDepartments.includes(department)) {
+            console.log('Invalid department:', department);
+            return res.status(400).json({ error: 'Invalid department' });
+        }
+
+        const validPriorities = ['Low', 'Medium', 'High', 'Critical'];
+        if (!validPriorities.includes(priority)) {
+            console.log('Invalid priority:', priority);
+            return res.status(400).json({ error: 'Invalid priority' });
+        }
+
+        const validIssueTypes = ['Technical', 'Hardware', 'Software', 'Access', 'Account', 'Other'];
+        if (!validIssueTypes.includes(issue_type)) {
+            console.log('Invalid issue_type:', issue_type);
+            return res.status(400).json({ error: 'Invalid issue type' });
+        }
+
+        const ticket_id = generateTicketId();  // Using our custom function instead of uuidv4()
 
         const result = await pool.query(
             'INSERT INTO tickets (ticket_id, emp_id, emp_name, emp_email, department, priority, issue_type, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
