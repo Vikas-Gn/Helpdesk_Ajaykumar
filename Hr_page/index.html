@@ -640,7 +640,7 @@
 
                 console.log('Fetching tickets with params:', params.toString());
 
-                const response = await fetch(`http://13.233.184.30:3055/api/tickets?${params.toString()}`);
+                const response = await fetch(`http://3.109.47.88:3055/api/tickets?${params.toString()}`);
                 if (!response.ok) {
                     console.error('API response status:', response.status, response.statusText);
                     throw new Error('Failed to fetch tickets');
@@ -725,7 +725,7 @@
         
         async function viewTicket(ticketId) {
             try {
-                const response = await fetch(`http://13.233.184.30:3055/api/tickets/${ticketId}`);
+                const response = await fetch(`http://3.109.47.88:3055/api/tickets/${ticketId}`);
                 if (!response.ok) throw new Error('Failed to fetch ticket');
                 
                 const ticket = await response.json();
@@ -761,7 +761,7 @@
             if (!currentTicketId) return;
             
             try {
-                const response = await fetch(`http://13.233.184.30:3055/api/tickets/${currentTicketId}/status`, {
+                const response = await fetch(`http://3.109.47.88:3055/api/tickets/${currentTicketId}/status`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -787,7 +787,7 @@
             if (!comment) return;
             
             try {
-                const response = await fetch(`http://13.233.184.30:3055/api/tickets/${currentTicketId}/comments`, {
+                const response = await fetch(`http://3.109.47.88:3055/api/tickets/${currentTicketId}/comments`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
